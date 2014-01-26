@@ -25,7 +25,7 @@ public class jdbcUtils {
 	//定义数据库的驱动信息
 	private final String DRIVER = "com.mysql.jdbc.Driver";
 	//定义访问数据库的地址
-	private final String URL = "jdbc:mysql://localhost:3306/scuboard";
+	private final String URL = "jdbc:mysql://localhost:3306/scb";
 	//定义数据库连接
 	private Connection connection;
 	//定义sql语句的执行
@@ -338,10 +338,10 @@ public class jdbcUtils {
 		
 		jdbcUtils jdbcu = new jdbcUtils();
 		jdbcu.getConnection();
-		String msg="MOON|sea";
+		String msg="moon|sea";
 		String []info1=msg.split("\\|");  //分割信息
 		System.out.print(info1);
-		String sql="select * from admin where admin_name=? and admin_pass=?";
+		String sql="select * from admin where admin_name=? and admin_pswd=?";
 		List<Object> params=new ArrayList<Object>();
 		params.add(info1[0]);
 		params.add(info1[1]);

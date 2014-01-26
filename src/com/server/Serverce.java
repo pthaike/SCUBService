@@ -1,21 +1,13 @@
 package com.server;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.SQLException;
 import java.text.ParseException;
 
-import com.jdbc.dbutils.jdbcUtils;
 import com.serverutils.ServerUtil;
-
-
 
 public class Serverce implements Runnable{
 
@@ -39,7 +31,7 @@ public class Serverce implements Runnable{
 					String str=in.readUTF();
 					System.out.println("receive---->"+str);
 					ServerUtil serverutl=new ServerUtil(str);
-					String reply=serverutl.MessageSolve(in);
+					String reply=serverutl.MessageSolve();
 					System.out.println("reply--->"+reply);
 					out.writeUTF(reply);
 					out.close();
@@ -65,22 +57,36 @@ public class Serverce implements Runnable{
 		//创建监听线程
 		Thread scuServerThread=new Thread(new Serverce());
 		scuServerThread.start();
+		
 		//DataInputStream in=null;
-		//String msg="<#LOGIN_INFO#>MOON|sea";
+		
+		//String msg="<#LOGIN_INFO#>moon|sea";
+		//String msg="<#LOGIN_INFO#>Moon|sea";
 		//String msg="<#STORE_QG#>1|计算机9班招新|快来快来|2013-09-24 15:26:12";
-		//String msg="<#STORE_JWC#>1|川大第一堂课|大学因你而不同|2013-09-24 15:26:12";
-		//String msg="<#STORE_JZ#>1|学会改变|庞廷海|不断改变，边走边思考|2013-09-24 20:51:12";
+		//String msg="<#STORE_QG#>1|change|go to do it|2013-09-24 15:26:12";
+		//String msg="<#GET_QGT#>0|3";
+		//String msg="<#GET_QG#>1";
+		//String msg="<#DEL_QG#>2";
+		
+		//String msg="<#STORE_JZ#>1|川大第一堂课|庞廷海|大学因你而不同|2013-09-24 15:26:12";
+		//String msg="<#STORE_JZ#>1|学会改变|庞廷海|思维空间|不断改变，边走边思考|2013-09-24 20:51:12";
 		//String msg="<#STORE_JZ#>1|最后一拼|庞廷海|只要不后悔，不遗憾|2013-09-24 20:53:12";
-		//String msg="<#GET_JWCT#>0|3";
-		//String msg="<#STORE_LOSTFOUND#>1|0|一卡通|联系fangshi";
-		//String msg="<#DEL_LF#>2";
-		//String msg="<#GET_SINGLEINFO#>3";
+		//String msg="<#STORE_JZ#>1|最后一拼|庞廷海|只要不后悔，不遗憾|2013-09-24 20:53:12";
 		//String msg="<#GET_JZ#>2";
-		//String msg="<#DEL_INFO#>4";
+		//String msg="<#GET_JZT#>1|3";
+		//String msg="<#DEL_JZ#>4";
+		
+		//String msg="<#STORE_LF#>0|1143041137|一卡通|联系方式";
+		//String msg="<#STORE_LF#>0|1143041137|一卡通|联系方式";
+		//String msg="<#GET_LF#>1";
+		//String msg="<#GET_LFT#>0|1";
+		//String msg="<#DEL_LF#>2";
+		
 		//ServerUtil su=new ServerUtil(msg);
-		//String s=su.MessageSolve(in);
+		//String s=su.MessageSolve();
+		
 		//s=s.substring(15);
 		//String[]m=s.split("\\|");
-		//System.out.println(s);
+		//System.out.println("\n"+s);
 	}
 }
