@@ -91,6 +91,14 @@ public class ServerUtil {
 			String msg=message.substring(10);
 			result=Deletelf(msg);
 		}
+		else if (message.startsWith("<#STORE_COM#>")){
+			String msg = message.substring(13);
+			result = StoreCom(msg);
+		}
+		else if (message.startsWith("<#GET_COM#>")){
+			String msg = message.substring(11);
+			result = GetCom(msg);
+		}
 		else{
 			result="<#ERROR#>";
 		}
@@ -382,7 +390,8 @@ public class ServerUtil {
 				res="<#INFO_NONE#>";
 			}else{
 				res="<#INFO_SUCCES#>"+map.get("jz_id")+"|"+map.get("jz_sid")+"|"+map.get("jz_title")+"|"+
-			map.get("jz_hname")+"|"+map.get("jz_addr")+"|"+map.get("jz_content")+"|"+map.get("jz_time")+"|"+map.get("jz_date");
+			map.get("jz_hname")+"|"+map.get("jz_addr")+"|"+map.get("jz_content")+
+			"|"+map.get("jz_time")+"|"+map.get("jz_date");
 			}
 		}catch (SQLException e){
 			res="<#INFO_NONE#>";
@@ -418,7 +427,7 @@ public class ServerUtil {
 	private String StorelfInfo(String msg){
 		String res=null;
 		String []m=msg.split("\\|"); 
-		int type=Integer.parseInt(m[1]);
+		int type=Integer.parseInt(m[0]);
 		String sql="insert into lfinfo(lf_type,lf_snum,lf_des,lf_cont)"+
 		"values(?,?,?,?)";
 		List<Object> params=new ArrayList<>();
@@ -512,6 +521,61 @@ public class ServerUtil {
 				res="<#DELINFO_S#>";
 			}else{
 				res="<#DELINFO_F#>";
+			}
+		}catch (SQLException e){
+			e.printStackTrace();
+		}finally{
+			jdbcu.releaseConn();
+		}
+		return res;
+	}
+	
+	private String StoreCom(String msg){
+		String res=null;
+		String []m=msg.split("\\|"); 
+		String sql="insert into comment(c_lfid,c_num,c_com)"+
+		"values(?,?,?)";
+		List<Object> params=new ArrayList<>();
+		params.add(m[0]);
+		params.add(m[1]);
+		params.add(m[2]);
+		try{
+			boolean b=jdbcu.updateByPrepareStatement(sql, params);
+			if(b){
+				res="<#STORE_SUCCESE#>";
+			}else{
+				res="<#STORE_FAIL#>";
+			}
+		}catch (SQLException e){
+			res="<#STORE_FAIL#>";
+			e.printStackTrace();
+		}finally{
+			jdbcu.releaseConn();
+		}
+		return res;
+	}
+	
+	private String GetCom(String msg){
+		String res=null;
+		int lfid=Integer.parseInt(msg);
+		
+		String sql="select c_id,c_com,c_date from comment where c_lfid=?";
+		
+		List<Object> params=new ArrayList<Object>();
+		params.add(lfid);
+		try{
+			List<Map<String,Object>> list=jdbcu.finndMoreResultSet(sql, params);
+			System.out.println(list);
+			Iterator it=list.iterator();
+			if(it.hasNext()){
+				res="<#INFO_SUCCES#>";
+				while(it.hasNext()){
+					//取出每条信息
+					Map<String,Object> map=(Map<String, Object>) it.next(); 
+					res=res+"|"+map.get("c_id")+"|"+map.get("c_com")+"|"+map.get("c_date");
+				}
+			}else{
+				res="<#INFO_NONE#>";
 			}
 		}catch (SQLException e){
 			e.printStackTrace();

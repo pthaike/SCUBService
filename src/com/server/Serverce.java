@@ -6,6 +6,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import com.serverutils.ServerUtil;
 
@@ -38,6 +39,7 @@ public class Serverce implements Runnable{
 					in.close();
 				} catch (Exception e) {
 					// TODO: handle exception
+					System.out.println("服务器异常："+e.getMessage());
 				}finally{
 					socket.close();
 					System.out.println("close");
@@ -82,11 +84,20 @@ public class Serverce implements Runnable{
 		//String msg="<#GET_LFT#>0|1";
 		//String msg="<#DEL_LF#>2";
 		
+		//String msg = "<#STORE_COM#>5|1143041137|我今天中午在教室捡到一串钥匙，应该是你的，今天联系你没人接电话，看到消息请与我联系，电话：10086";
+		//String msg = "<#STORE_COM#>5|1143041137|谢谢上面同学啦";
+		//String msg = "<#GET_COM#>5";
+		
 		//ServerUtil su=new ServerUtil(msg);
 		//String s=su.MessageSolve();
 		
 		//s=s.substring(15);
 		//String[]m=s.split("\\|");
 		//System.out.println("\n"+s);
+		
+		//java.util.Date now = new java.util.Date();
+		//SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		//String nowdate = dateFormat.format(now);
+		//System.out.println(now.getYear()+"-"+now.getMonth()+"-"+now.getDate());
 	}
 }
